@@ -1,0 +1,190 @@
+﻿@using System;
+@using System.Globalization;
+@model IEnumerable<Laba2FilmsBD.Models.Actor>
+
+@{
+    ViewData["Title"] = "Actors";
+}
+
+<h1>Список акторів та акторок</h1>
+
+<p>
+    <a asp-action="Create">Додати</a>
+</p>
+
+ <label style="color:#ff0000">@ViewBag.ErrorMassage</label>
+ <br>
+
+<div class="inline"> #1
+    <form asp-controller="Actors" asp-action="Index" method="get">
+     Усі актори та акторки, які знімалися в хоча б в усіх тих самих фільмах, що і актор(ка)
+        <select name="Id" class="inline"/>          
+            @foreach(var item in ViewBag.contextActors)
+             {
+                if (ViewBag.LastRequest == "1" && ViewBag.LastSearch == item.Id)
+                {
+                    <option selected="selected" value="@item.Id">@item.FirstName @item.LastName</option>
+                }
+                else {
+                    <option value="@item.Id">@item.FirstName @item.LastName</option>
+                }
+            } 
+        <br/>
+        <input type="hidden" name="Rnumber" value="1"/>
+       
+    <input type="submit" value="Знайти"/> 
+</form>
+
+</div>
+
+
+<div class="inline"> #3
+    <form asp-controller="Actors" asp-action="Index" method="get">
+    Усі актори та акторки, які <select name="val" class="inline">
+                @if (ViewBag.LastRequest == "3")
+                {
+                    @if (ViewBag.LastValue == "не")
+                    {
+                        <option value="0"> </option>
+                        <option selected="selected" value="1"> не </option>
+                    }
+                    else
+                    {
+                        <option selected="selected" value ="0"> </option>
+                        <option value="1"> не </option>
+                    }
+                }
+                else
+                {
+                     <option  value ="0"> </option>
+                     <option value ="1"> не </option>
+                }
+            </select> знімалися в хоча б одному фільмі з популярністю >= за  
+            @if (ViewBag.LastRequest == "3")
+            {
+                <input class ="inline" type="number" name="persent" value="@ViewBag.LastSearch"/>
+            } 
+            else
+            {
+                 <input class ="inline" type="number" name="persent"/>
+            } відсотків
+           <br/>  <label>       популярністю вважати: (кількість покупців, які купили фільм) / (загальна кількість покупців)</label>
+        <br/>
+        <input type="hidden" name="Rnumber" value="3"/>
+       
+    <input type="submit" value="Знайти"/>
+</form>
+
+</div>
+
+<div class="inline"> #7
+    <form asp-controller="Actors" asp-action="Index" method="get"> 
+    Усі <select name="val" class="inline">
+                @if (ViewBag.LastRequest == "7")
+                {
+                    @if (ViewBag.LastValue == "актори та акторки")   { <option selected = "selected" value="0">актори та акторки</option> } 
+                    else{  <option value="0">актори та акторки</option> }
+
+                    @if (ViewBag.LastValue == "актори") { <option selected = "selected" value="1">актори</option>}
+                    else {<option value="1">актори</option>}
+
+                    @if (ViewBag.LastValue == "акторки") { <option selected = "selected" value="2">акторки</option>}
+                    else {<option value="2">акторки</option>}
+                    
+                }
+                else
+                {
+                      <option value="0">актори та акторки</option>
+                      <option value="1">актори</option>
+                      <option value="2">акторки</option>
+                }
+            </select>, які знімалися в фільмі
+             <select name="Id" class="inline"/>          
+            @foreach(var item in ViewBag.contextFilms)
+             {
+                if (ViewBag.LastRequest == "7" && ViewBag.LastSearch == item.Id)
+                {
+                    <option selected="selected" value="@item.Id">@item.Title</option>
+                }
+                else 
+                {
+                    <option value="@item.Id">@item.Title</option>
+                }
+            } 
+        <input type="hidden" name="Rnumber" value="7"/>
+   
+    <input type="submit" value="Знайти"/>
+</form>
+
+</div>
+
+ <br/>
+ @if (ViewBag.ErrorMassage == "" || ViewBag.ErrorMassage == null)
+{
+    @if (ViewBag.LastRequest == "1")
+    {
+        <label> Усі актори та акторки, які знімалися в хоча б в усіх тих самих фільмах, що і актор(ка) з Id = @ViewBag.LastSearch</label>
+    }
+    @if (ViewBag.LastRequest == "3")
+    {
+        <label>   Усі актори та акторки, які @ViewBag.LastValue знімалися в хоча б одному фільмі з популярністю >= @ViewBag.LastSearch відсотків</label>
+        <label>         популярністю вважати: (кількість покупців, які купили фільм) / (загальна кількість покупців)</label>
+    }
+    @if (ViewBag.LastRequest == "7")
+    {
+        <label> Усі @ViewBag.LastValue, які знімалися в фільмі @ViewBag.LastSearch </label>
+    }
+}
+<p>
+    <a asp-action="Index">Очистити запит</a>
+</p>
+
+
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BirthDay)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @if (item.BirthDay != null)
+                {
+                    @(((DateTime)item.BirthDay).ToString("dd.MM.yyyy"))
+                }                        
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Laba2FilmsBD.Models.Purchase>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Список покупок</h1>
+
+<p>
+    <a asp-action="Create">Додати запис</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PaymentDay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Film)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaymentDay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.FirstName) <text> </text>
+                @Html.DisplayFor(modelItem => item.Customer.LastName) <text> </text>
+                <br>
+                @Html.DisplayFor(modelItem => item.Customer.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Film.Title)
+            </td>
+            <td>
+                @Html.ActionLink("Редагувати", "Edit", new { CustomerId= item.CustomerId, FilmId = item.FilmId  }) |
+                @Html.ActionLink("Видалити", "Delete", new { CustomerId= item.CustomerId, FilmId = item.FilmId  })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

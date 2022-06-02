@@ -1,0 +1,160 @@
+﻿@model IEnumerable<Laba2FilmsBD.Models.Customer>
+
+@{
+    ViewData["Title"] = "Customers";
+}
+
+<h1>Список покупців</h1>
+
+<p>
+    <a asp-action="Create">Додати нового покупця</a>
+</p>
+
+ <label style="color:#ff0000">@ViewBag.ErrorMassage</label>
+ <br/>
+
+<div class="inline"> #2
+    <form asp-controller="Customers" asp-action="Index" method="get"> 
+    Усі покупці, які купили хоча б один фільм з актором         
+            <select name="Id" class="inline">          
+            @foreach(var item in ViewBag.contextActors)
+             {
+                if (ViewBag.LastRequest == "2" && ViewBag.LastSearch == item.Id)
+                {
+                    <option selected="selected" value="@item.Id">@item.FirstName @item.LastName</option>
+                }
+                else {
+                    <option value="@item.Id">@item.FirstName @item.LastName</option>
+                }
+            }
+            </select>
+            <select name="val" class="inline">
+                @if (ViewBag.LastRequest == "2")
+                {
+                    @if (ViewBag.LastValue == "")   { <option selected = "selected" value="0"></option> } 
+                    else{  <option value="0"></option> }
+
+                    @if (ViewBag.LastValue == "у головній ролі") { <option selected = "selected" value="1">у головній ролі</option>}
+                    else {<option value="1">у головній ролі</option>}
+
+                    @if (ViewBag.LastValue == "у другорядній ролі") { <option selected = "selected" value="2">у другорядній ролі</option>}
+                    else {<option value="2">у другорядній ролі</option>}
+                    
+                }
+                else
+                {
+                      <option value="0"></option>
+                      <option value="1">у головній ролі</option>
+                      <option value="2">у другорядній ролі</option>
+                }
+            </select>
+
+        
+        <input type="hidden" name="Rnumber" value="2"/>
+   <br/>
+    <input type="submit" value="Знайти"/>
+</form>
+
+</div>
+
+
+<div class="inline"> #6
+    <form asp-controller="Customers" asp-action="Index" method="get"> 
+    
+        Усі покупці, які витратили на покупки не менше ніж 
+         @if (ViewBag.LastRequest == "6")
+        {
+            <input class ="inline" type="number" name="val" value="@ViewBag.LastValue"/>
+        }
+        else
+        {
+             <input class ="inline" type="number" name="val"/>
+        }
+        гривень
+        
+        <input type="hidden" name="Rnumber" value="6"/>
+   <br/>
+    <input type="submit" value="Знайти"/>
+</form>
+
+</div>
+
+
+
+    <br>
+
+@if (ViewBag.ErrorMassage == "" || ViewBag.ErrorMassage == null)
+{
+    @if (ViewBag.LastRequest == "2")
+    {
+        <label> Усі покупці, які купили хоча б один фільм з актором з Id = @ViewBag.LastSearch @ViewBag.LastValue </label>
+    }
+    @if (ViewBag.LastRequest == "6")
+    {
+        <label>Усі покупці, які витратили на покупки не менше ніж @ViewBag.LastValue гривень</label>
+    }
+}
+
+<p>
+    <a asp-action="Index">Очистити запит</a>
+</p>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastActiveDate)
+            </th>
+            @if (ViewBag.LastRequest == "6")
+            {
+                <th>
+                @Html.DisplayNameFor(model => model.TotalAmount)
+            </th>
+            }
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+
+
+@if (Model != null)
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastActiveDate)
+            </td>
+             @if (ViewBag.LastRequest == "6")
+            {
+                <th>
+                @Html.DisplayFor(modelItem => item.TotalAmount)
+            </th>
+            }
+
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Laba2FilmsBD.Models.ActorsInFilm>
+
+@{
+    ViewData["Title"] = "ActorsInFilms";
+}
+
+<h1>Актори в фільмах</h1>
+
+<p>
+    <a asp-action="Create">Додати запис</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Сharacter)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsMain)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Actor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Film)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Сharacter)
+            </td>
+            <td>
+                @if (item.IsMain == true) {<text>✔</text>}
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Actor.FirstName) <text> </text> 
+                @Html.DisplayFor(modelItem => item.Actor.LastName) 
+            </td> 
+            <td>
+                @Html.DisplayFor(modelItem => item.Film.Title)
+            </td>
+            <td>
+                @Html.ActionLink("Редагувати", "Edit", new { ActorId = item.ActorId, FilmId = item.FilmId }) |                
+                @Html.ActionLink("Видалити", "Delete", new { ActorId = item.ActorId, FilmId = item.FilmId })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

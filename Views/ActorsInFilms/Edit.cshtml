@@ -1,0 +1,44 @@
+﻿@model Laba2FilmsBD.Models.ActorsInFilm
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Редагувати запис</h1>
+
+<h4>Роль у фільмі</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <label>Актор: @Model.Actor.FirstName @Model.Actor.LastName</label>
+         <br>
+        <label>Фільм: @Model.Film.Title</label>
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ActorId" />
+            <input type="hidden" asp-for="FilmId" />
+           
+            <div class="form-group">
+                <label asp-for="Сharacter" class="control-label"></label>
+                <input asp-for="Сharacter" class="form-control" />
+                <span asp-validation-for="Сharacter" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsMain" class="control-label"></label>
+                <input asp-for="IsMain" class="form-control" />
+                <span asp-validation-for="IsMain" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Зберегти" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Назад</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,53 @@
+﻿@model Laba2FilmsBD.Models.ActorsInFilm
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Додати новий запис</h1>
+    
+<h4>Роль у фільмі</h4>
+
+     <label style="color:#ff0000">@ViewBag.ErrorMessage</label>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ActorId" class="control-label"></label>
+                <select asp-for="ActorId" class ="form-control"> 
+                @foreach(var item in ViewBag.contextActors)
+                 {
+                    <option value="@item.Id">@item.FirstName @item.LastName</option>
+                 }
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="FilmId" class="control-label"></label>
+                <select asp-for="FilmId" class ="form-control" asp-items="ViewBag.FilmId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Сharacter" class="control-label"></label>
+                <input asp-for="Сharacter" class="form-control" />
+                <span asp-validation-for="Сharacter" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsMain" class="control-label"></label>
+                <input asp-for="IsMain" class="form-control" />
+                <span asp-validation-for="IsMain" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Додати" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Назад</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

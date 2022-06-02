@@ -1,0 +1,88 @@
+﻿@{
+    ViewData["Title"] = "Start Page";
+}
+
+<div class="text-center">
+    <h1>Лабораторна робота 2</h1>
+    <h2>К-26 Кіндякова Діана</h2>
+    <h3></h3>
+</div>
+
+<label style="color:#ff0000">@ViewBag.ErrorMessage</label>
+
+<div class="inline"> #8
+    <form asp-controller="Home" asp-action="Index" method="get">
+    <label>Знайти для кожного актора покупця, який купив з ним найбільше фільмів, </label>
+      <label>       якщо таких декілька, то вибрати з </label> 
+      <select name="val" class="inline">
+                @if (ViewBag.LastRequest == "8")
+                {
+                    @if (ViewBag.LastValue == "мінімальним")
+                    {
+                        <option selected="selected"value="false"> мінімальним</option>
+                        <option value="true"> максимальним </option>
+                    }
+                    else
+                    {
+                        <option  value ="false"> мінімальним</option>
+                        <option selected="selected" value="true"> максимальним </option>
+                    }
+                }
+                else
+                {
+                     <option  value ="false">мінімальним </option>
+                     <option value ="true"> максимальним </option>
+                }
+            </select> значенням Id
+        <br/>
+        <input type="hidden" name="Rnumber" value="8"/>
+       
+    <input type="submit" value="Знайти"/> 
+</form>
+</div>
+
+@if (ViewBag.ErrorMessage == "" || ViewBag.ErrorMessage == null)
+{   
+    @if (ViewBag.LastRequest == "8")
+    {
+        <label> Знайти для кожного актора покупця, який купив з ним найбільше фільмів, </label>
+        <label>   якщо таких декілька, то вибрати з @ViewBag.LastValue значенням Id </label>
+    }
+}
+
+<p>
+    <a asp-action="Index">Очистити запит</a>
+</p>
+
+@if (ViewBag.LastRequest == "8"){
+                     
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <label>Актор(ка)</label>
+            </th>
+            <th>
+                 <label>Покупець</label>
+            </th>            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (ViewBag.Fans != null)
+@foreach (var item in ViewBag.Fans) {
+        <tr>
+            <td>
+                @(item.ActorFirstName) @(item.ActorLastName) 
+            </td>
+            <td>
+                @(item.CustomerFirstName) @(item.CustomerLastName)
+                <br>
+                 @(item.CustomerEmail)         
+               
+            </td> 
+        </tr>
+}
+    </tbody>
+</table>
+}
